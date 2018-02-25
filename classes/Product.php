@@ -424,6 +424,12 @@ class ProductCore extends ObjectModel
             ),
         ),
         'associations' => array(
+            'suppliers' => array(
+                'resource' => 'supplier',
+                'fields' => array(
+                    'id' => array('required' => true),
+                )
+            ),
             'categories' => array(
                 'resource' => 'category',
                 'fields' => array(
@@ -5528,6 +5534,56 @@ class ProductCore extends ObjectModel
     {
         $this->deleteDefaultAttributes();
         return $this->setDefaultAttribute((int)$id_combination);
+    }
+
+    /**
+     * Webservice getter : get supplier ids of current product for association
+     *
+     * @return array
+     */
+    public function getWsSuppliers()
+    {
+        $items = ProductSupplier::getSupplierCollection($this->id, false);
+
+        $result = array();
+        foreach ($items as $item) {
+            $result[] = $item->id_supplier;
+        }
+
+        return $result;
+    }
+
+    /**
+     * Webservice setter : set supplier ids of current product for association
+     *
+     * @param array $supplier_ids supplier ids
+     * @return bool
+     */
+    public function setWsSuppliers($supplier_ids)
+    {
+        $ids = array($this->id_supplier);
+        foreach ($supplier_ids as $value) {
+            if ($value instanceof Supplier) {
+                $ids[] = (int)$value->id;
+            } else if (is_array($value) && array_key_exists('id', $value)) {
+                $ids[] = (int)$value['id'];
+            } else {
+                $ids[] = (int)$value;
+            }
+        }
+        $ids = array_unique($ids);
+
+        $items = ProductSupplier::getSupplierCollection($this->id, false);
+        foreach ($items as $item) {
+            $item->delete();
+        }
+
+        foreach ($ids as $id) {
+            $this->addSupplierReference($id, 0);
+        }
+
+        Hook::exec('updateProduct', array('id_product' => (int)$this->id));
+        return true;
     }
 
     /**
