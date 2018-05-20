@@ -2944,6 +2944,20 @@ class ProductCore extends ObjectModel
     }
 
     /**
+     * Get product empty image array to display default image
+     *
+     * @return array
+     */
+    public function getEmptyImageTemplate() {
+        return [
+            'cover'    => '1',
+            'id_image' => '0',
+            'legend'   => '',
+            'position' => '1',
+        ];
+    }
+
+    /**
     * Get product cover image
     *
     * @return array Product cover image

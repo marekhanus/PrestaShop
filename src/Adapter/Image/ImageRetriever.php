@@ -27,6 +27,7 @@
 
 namespace PrestaShop\PrestaShop\Adapter\Image;
 
+use Context;
 use Link;
 use Language;
 use Product;
@@ -55,7 +56,9 @@ class ImageRetriever
         $images = $productInstance->getImages($language->id);
 
         if (empty($images)) {
-            return [];
+            $images = [
+                $productInstance->getEmptyImageTemplate(),
+            ];
         }
 
         $combinationImages = $productInstance->getCombinationImages($language->id);
@@ -102,7 +105,7 @@ class ImageRetriever
 
     public function getImage($object, $id_image)
     {
-        if (!$id_image) {
+        if (is_null($id_image)) {
             return null;
         }
 
@@ -150,6 +153,10 @@ class ImageRetriever
                     (int)$image_type['width'],
                     (int)$image_type['height']
                 );
+            }
+
+            if ($id_image == 0) {
+                $id_image = Context::getContext()->language->iso_code . '-default';
             }
 
             $url = $this->link->$getImageURL(
