@@ -32,22 +32,22 @@
             {if $depth===0}
               <a href="{$node.link}">{$node.name}</a>
               {if $node.children}
-                <div class="navbar-toggler collapse-icons" data-toggle="collapse" data-target="#exCollapsingNavbar{$node.id}">
+                <div class="navbar-toggler collapse-icons" data-toggle="collapse" data-target="#exCollapsingNavbar{$node.id}" aria-expanded="{if isset($currentPath) && in_array($node.id, $currentPath)}true{else}false{/if}">
                   <i class="material-icons add">&#xE145;</i>
                   <i class="material-icons remove">&#xE15B;</i>
                 </div>
-                <div class="collapse" id="exCollapsingNavbar{$node.id}">
+                <div class="collapse {if isset($currentPath) && in_array($node.id, $currentPath)}in{/if}" id="exCollapsingNavbar{$node.id}">
                   {categories nodes=$node.children depth=$depth+1}
                 </div>
               {/if}
             {else}
               <a class="category-sub-link" href="{$node.link}">{$node.name}</a>
               {if $node.children}
-                <span class="arrows" data-toggle="collapse" data-target="#exCollapsingNavbar{$node.id}">
+                <span class="arrows" data-toggle="collapse" data-target="#exCollapsingNavbar{$node.id}" aria-expanded="{if isset($currentPath) && in_array($node.id, $currentPath)}true{else}false{/if}">
                   <i class="material-icons arrow-right">&#xE315;</i>
                   <i class="material-icons arrow-down">&#xE313;</i>
                 </span>
-                <div class="collapse" id="exCollapsingNavbar{$node.id}">
+                <div class="collapse {if isset($currentPath) && in_array($node.id, $currentPath)}in{/if}" id="exCollapsingNavbar{$node.id}">
                   {categories nodes=$node.children depth=$depth+1}
                 </div>
               {/if}
