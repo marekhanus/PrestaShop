@@ -38,6 +38,9 @@ server {
     # Redirect 404 errors to prestashop
     error_page 404 /index.php?controller=404;
 
+    # Increase file upload size limit
+    client_max_body_size 10M;
+
     # Gzip Settings, convert all types.
     gzip on;
     gzip_vary on;
@@ -177,6 +180,5 @@ server {
         # fastcgi_buffer_size 256k;
         # fastcgi_buffers 256 16k;
         # fastcgi_busy_buffers_size 256k;
-        client_max_body_size 10M;
     }
 }
