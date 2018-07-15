@@ -213,7 +213,7 @@ class ImageTypeCore extends ObjectModel
     {
         $context = Context::getContext();
         if (isset($context->shop->theme)) {
-            $imagesTypes = $context->shop->theme->get('image_types');
+            $imagesTypes = $context->shop->theme->get('global_settings.image_types');
             return is_array($imagesTypes) ? $imagesTypes : array();
         }
 
