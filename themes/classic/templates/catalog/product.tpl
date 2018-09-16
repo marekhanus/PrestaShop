@@ -142,7 +142,10 @@
             {block name='hook_display_reassurance'}
               {hook h='displayReassurance'}
             {/block}
-
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
             {block name='product_tabs'}
               <div class="tabs">
                 <ul class="nav nav-tabs" role="tablist">
